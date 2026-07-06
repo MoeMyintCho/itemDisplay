@@ -1,0 +1,153 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Item Display</title>
+    <script src="item-list.js"></script>
+
+    <style>
+        body{
+            font-family: Arial, Helvetica, sans-serif;
+            background:#f4f6f9;
+            margin:40px;
+        }
+
+        .main-container{
+            width:420px;
+            margin:auto;
+            background:white;
+            padding:25px;
+            border-radius:10px;
+            box-shadow:0 4px 12px rgba(0,0,0,.15);
+        }
+
+        h2{
+            text-align:center;
+            color:#333;
+        }
+
+        .select{
+            width:100%;
+            padding:10px;
+            font-size:16px;
+            margin:15px 0;
+        }
+
+        hr{
+            margin:20px 0;
+        }
+
+        .prop-row{
+            display:flex;
+            justify-content:space-between;
+            padding:10px 0;
+            border-bottom:1px solid #ddd;
+        }
+
+        .prop-name{
+            font-weight:bold;
+            color:#444;
+        }
+
+        .value{
+            color:#0077cc;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="main-container">
+
+    <h2>Item Display</h2>
+
+    <select id="item-list" class="select"></select>
+
+    <hr>
+
+    <div class="prop-row">
+        <div class="prop-name">ID</div>
+        <div id="item-id" class="value"></div>
+    </div>
+
+    <div class="prop-row">
+        <div class="prop-name">Name</div>
+        <div id="item-name" class="value"></div>
+    </div>
+
+    <div class="prop-row">
+        <div class="prop-name">Category</div>
+        <div id="item-category" class="value"></div>
+    </div>
+
+    <div class="prop-row">
+        <div class="prop-name">Inventory Amt.</div>
+        <div id="item-inventory" class="value"></div>
+    </div>
+
+    <div class="prop-row">
+        <div class="prop-name">List Price</div>
+        <div id="item-price" class="value"></div>
+    </div>
+
+</div>
+
+<script>
+const select = document.getElementById("item-list");
+
+
+const defaultOption = document.createElement("option");
+defaultOption.value = "";
+defaultOption.textContent = "-- Select an Item --";
+select.appendChild(defaultOption);
+
+
+items.forEach(item => {
+    const option = document.createElement("option");
+    option.value = item.id;
+    option.textContent = item.name;
+    select.appendChild(option);
+});
+
+
+select.selectedIndex = 0;
+
+
+function clearDisplay() {
+    document.getElementById("item-id").textContent = "";
+    document.getElementById("item-name").textContent = "";
+    document.getElementById("item-category").textContent = "";
+    document.getElementById("item-inventory").textContent = "";
+    document.getElementById("item-price").textContent = "";
+}
+
+
+function displayItem(item) {
+    document.getElementById("item-id").textContent = item.id;
+    document.getElementById("item-name").textContent = item.name;
+    document.getElementById("item-category").textContent = item.category;
+    document.getElementById("item-inventory").textContent = item.inventory;
+    document.getElementById("item-price").textContent = "$" + item.price.toFixed(2);
+}
+
+
+select.addEventListener("change", function () {
+
+    if (this.value === "") {
+        clearDisplay();
+        return;
+    }
+
+    const selectedItem = items.find(item => item.id == this.value);
+
+    if (selectedItem) {
+        displayItem(selectedItem);
+    }
+});
+
+
+clearDisplay();
+</script>
+
+</body>
+</html>
